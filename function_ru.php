@@ -625,31 +625,446 @@ n();
 //array_flip()
 //Меняет местами ключи с их значениями в массиве
 //array array_flip ( array $trans )
+$trans = array( 1 => 'banana', 2 => 'apple', 3 => 'peach');
+print_r($trans);
+n();
+$trans = array_flip($trans);
+print_r($trans);
+n();
+
+//array_intersect()
+//Вычисляет схождение массивов
+//array array_intersect ( array $array1 , array $array2 [, array $...])
+$array1 = array('a' => 'green', 'yellow', 'blue');
+$array2 = array('b' => 'red', 'green', 'blue', 'silver');
+$result = array_intersect($array1, $array2);
+print_r($result);
+n();
+
+//array_intersect_assoc()
+//Вычисляет схождение массивов с дополнительной проверкой индекса
+//array array_intersect_assoc (array $array1 , array $array2 [, array $ ... ])
+$array1 = array('a' => 'green', 'yellow', 'blue');
+$array2 = array('a' => 'green', 'red', 'yellow');
+$result_array = array_intersect_assoc($array1, $array2);
+print_r($result_array);
+n();
+
+//array_intersect_key()
+//Вычислить пересечение массивов сравнивая ключи
+//array array_intersect_key (aray $array1 , array $array2 [, array $ ...])
+$array1 = array('blue' => 1, 'red' => 4, 'green' => 5);
+$array2 = array('red' => 4, 'green' => 5, 'silver' => 6);
+$result_array = array_intersect_key($array1, $array2);
+print_r($result_array);
+n();
+
+//array_intersect_uassoc()
+//Вычисляет схождение массивов с дополнительной проверкой индекса, осуществляемой при помощи callback - функции
+//array array_intersect_uassoc (array $array1 , array $array2 [, array $ ...], callable $key_compare_func)
+$array1 = array('a' => 'green', 'red', 'b' => 'blue');
+$array2 = array('a' => 'red', 'b' => 'blue', 'green', 'orange');
+print_r(array_intersect_uassoc($array1, $array2, 'strcasecmp'));
+n();
+
+//array_intersect_ukey()
+//Вычисляет схождение массивов, используя callback - функцию для сравнения ключей
+//array array_intersect_ukey ( array $array1, array $array2 [, array $...], callable $key_compare_func)
+function key_compare_func_a($key1, $key2)
+{
+	if($key1 == $key2)
+		return 0;
+	else if ($key1 > $key2)
+		return 1;
+	else
+		return -1;
+}
+$array1 = array('blue' => 1, 'green' => 4, 'red' => 6);
+$array2 = array('green' => 8, 'brown' => 7, 'orange' => 9);
+var_dump(array_intersect_ukey($array1, $array2, 'key_compare_func_a'));
+n();
+
+//array_key_exists()
+//Проверяет, присутствует ли в массиве указвнный ключ или индекс
+//bool array_key_exists (mixed $key, array $search)
+$search_array = array('first' => 1, 'second' => 2);
+if(array_key_exists('first', $search_array)){
+	echo "Массив содержит элемент: 'first' ";
+}
+n();
+
+//array_keys()
+//Возвращает все или некоторое подмножество ключей массива
+//array array_keys (array $input [, mixed $search_value = NULL [, bool $strict = false]])
+$array = array(0 => 100, 'color' => 'red');
+print_r(array_keys($array));
+n();
+$array = array('blue', 'green', 'blue', 'blue');
+print_r(array_keys($array, 'blue'));
+n();
+$array = array(
+				'color' => array('blue', 'red', 'green'),
+				'size'  => array('small', 'large', 'medium')
+		);
+print_r(array_keys($array));
+n();
+
+//array_map()
+//Применяет callback - функцию ко всем элементам указанных массивов
+//array array_map ( callback $callback , array $arr1 [, array $...])
+function cube($n)
+{
+return($n * $n * $n);
+}
+$a = array(1, 2, 3, 4, 5);
+$b = array_map("cube", $a);
+print_r($b);
+n();
+$func = function($value){
+	return $value * 2;
+};
+print_r(array_map($func, range(1, 5)));
+n();
+function show_Spanish($n, $m)
+{
+	return("Число {$n} по испански - {$m}");
+}
+function map_Spanish($n, $m)
+{
+	return(array($n => $m));
+}
+$a = array(1, 2, 3, 4, 5);
+$b = array("uno", "dos", "tres", "cuatro", "cinco");
+$c = array_map("show_Spanish", $a, $b);
+print_r($c);
+n();
+$d = array_map("map_Spanish", $a, $b);
+print_r($d);
+n();
+$a = array(1, 2, 3, 4, 5);
+$b = array("one", "two", "tree", "four", "five");
+$c = array("uno", "dos", "tres", "cuatro", "cinco");
+$d = array_map(null, $a, $b, $c);
+print_r($d);
+n();
+$arr = array("stringkey" => "value");
+function cb1($a){
+	return array ($a);
+}
+function cb2 ($a, $b){
+	return array ($a, $b);
+}
+var_dump(array_map("cb1", $arr));
+n();
+var_dump(array_map("cb2", $arr, $arr));
+n();
+var_dump(array_map(null, $arr));
+n();
+var_dump(array_map(null, $arr, $arr));
+n();
+
+//array_merge()
+//Сливает один или больее количество массивов
+//array array_merge ( array $array1 [, array $...])
+$array1 = array("color" => "red", 2, 4);
+$array2 = array("a", "b", "color" => "green", "shape" => "trapezoid", 4);
+$result = array_merge($array1, $array2);
+print_r($result);
+n();
+$array1 = array();
+$array2 = array(1 => "data");
+$result = array_merge($array1, $array2);
+print_r($result);
+n();
+$array1 = array(0 => 'zerro_a', 2 => 'two_a', 3 => 'three_a');
+$array2 = array(1 => 'one_b', 3 => 'three_b', 4 => 'four_b');
+$result = $array1 + $array2;
+var_dump($result);
+n();
+
+//array_merge_recursive()
+//Рекурсивное слияние двух и более массивов
+//array array_merge_recursive ( array $array1 [, array $... ])
+$ar1 = array("color" => array("favorite" => "red"), 5);
+$ar2 = array(10, "color" => array("favorite" => "green", "blue"));
+$result = array_merge_recursive($ar1, $ar2);
+print_r($result);
+n();
+
+//array_multisort()
+//Сортирует несколько массивов или многомерные массивы
+//bool array_multisort ( array &$arr [, mixed $arg = SORT_ASC [, mixed $arg = SORT_REGULAR [, mixed $... ]]])
+$ar1 = array(10, 100, 100, 0);
+$ar2 = array(1, 2, 3, 4);
+array_multisort($ar1, $ar2);
+var_dump($ar1);
+n();
+var_dump($ar2);
+n();
+$arr = array(
+			array("10", 11, 100, 100, "a"),
+			array(1, 2, "2", 3, 1)
+		);
+array_multisort($arr[0], SORT_ASC, SORT_STRING,
+				$arr[1], SORT_NUMERIC, SORT_DESC);
+var_dump($arr);
+n();
+$data[] = array('volume' => 67, 'edition' => 2);
+n();
+$data[] = array('volume' => 86, 'edition' => 1);
+n();
+$data[] = array('volume' => 85, 'edition' => 6);
+n();
+$data[] = array('volume' => 98, 'edition' => 2);
+n();
+$data[] = array('volume' => 86, 'edition' => 6);
+n();
+$data[] = array('volume' => 67, 'edition' => 7);
+n();
+//получение списка столбцтов
+foreach($data as $key => $row){
+	$volume[$key] = $row['volume'];
+	$edition[$key] = $row['edition'];
+}
+//сортируем данные по volume по убыванию по edition по возрастанию
+//добавляеи $data в качестве последнего параметра, для сортировки по общемуключу
+array_multisort($volume, SORT_DESC, $edition, SORT_ASC, $data);
+n();
+$array = array("car", "apple", "book");
+$array_lowercase = array_map('strtolower', $array);
+print_r($array_lowercase);
+n();
+array_multisort($array_lowercase, SORT_ASC, SORT_STRING, $array);
+print_r($array);
+n();
+
+//array_pad()
+//Дополнить массив определенным значением до указанной длины
+//array array_pad ( array $input , int $pad_size , mixed $pad_value )
+$input = array(12, 10, 9);
+$result = array_pad($input, 5, 0);
+n();
+//result: array(12, 10, 9, 0, 0);
+$result = array_pad($input, -7, -1);
+n();
+//result: array(-1, -1, -1, -1, 12, 10, 9);
+$result = array_pad($input, 2, "noop");
+n();
+// операция не произведена
+
+//array_pop()
+//Извлекает последний элемент массива
+$stack = array("banana", "apple", "orange", "raspberry");
+$new_arr = array_pop($stack);
+print_r($new_arr);
+n();
+
+//array_product()
+//Вычислить произведение значений массива
+//number array_product(array $array)
+$a = array(3, 4, 6, 7, 9);
+echo array_product($a);
+n();
+echo array_product(array());
+n();
+
+//array_push()
+//Добавляет один или несколько элементов в конец массива
+//int array_push ( array &$array , mixed $var [, mixed $ ... ])
+$stack = array("orange", "banana");
+array_push($stack, "apple", "raspberry");
+print_r($stack);
+n();
+
+//array_rand()
+//Выбирает один или несколько случайных ключей из массива
+//mixed array_rand ( array $input [, int $num_req = 1 ])
+$input = array("apple", "orange", "banana");
+$rand_keys = array_rand($input, 2);
+echo $input[$rand_keys[0]];
+n();
+echo $input[$rand_keys[1]];
+n();
+
+//array_reduce()
+//Итеративно уменьшает массив к единственному значению, используя callback-функцию
+//mixed array_reduce ( array $input , callable $function [, mixed $initial = NULL])
+function rsum($v, $w)
+{
+	$v += $w;
+	return $v;
+}
+function rmul($v, $w)
+{
+	$v *= $w;
+	return $v;
+}
+$a = array(1, 2, 3, 4, 5);
+$x = array();
+$b = array_reduce($a, "rsum");
+n();
+$c = array_reduce($a, "rmul", 10);
+n();
+$d = array_reduce($x, "rsum", "No data to reduce");
+n();
+
+//array_replace()
+//Заменяет элементы массива элементами других переданных массивов
+//array array_replace( array $array , array $array1 [, array $ ...])
+$base = array("orange", "banana", "apple", "raspberry");
+$replacements = array(0 => "pineapple", 4 => "cherry");
+$replacements2 = array(0 => "grape");
+$basket = array_replace($base, $replacements, $replacements2);
+print_r($basket);
+n();
+
+//array_replace_recursive()
+//Рекурсивно заменяет элементы первого массива элементами переданных массивов
+//array array_replace_recursive (array $array , array $array1 [, array $...])
+$base = array('citrus' => array("orange"), 'berries' => array("blackberry", "raspberry"),);
+$replacements = array('citrus' => array('pinapple'), 'berries' => array('blueberry'));
+$basket = array_replace_recursive($base, $replacements);
+print_r($basket);
+n();
+$basket = array_replace($base, $replacements);
+print_r($basket);
+n();
+
+//array_reverse()
+//Возвращает массив с элементами в обратном порядке
+//array array_reverse ( array $array [, bool $preserve_keys = false ])
+$input = array("php", 4.0, array("green", "red"));
+$reversed = array_reverse($input);
+$preserved = array_reverse($input, true);
+print_r($input);
+n();
+print_r($reversed);
+n();
+print_r($preserved);
+n();
+
+//array_search()
+//Осуществляет поиск данного значения в массиве и возвращает ключ первого найденного элемента в случае удачи
+// mixed array_search ( mixed $needle , array $haystack [, bool $strict = false])
+$array = array(0 => 'blue', 1 => 'red', 2 => 'green', 3 => 'red');
+$key = array_search('green', $array); // $key = 2
+print_r($key);
+n();
+$key = array_search('red', $array); // $key = 1
+print_r($key);
+n();
+
+//array_shift()
+//Извлекает первый элемент массива
+//mixed array_shift (array &$array)
+$stack = array("orange", "banana", "apple", "raspberry");
+$fruit = array_shift($stack);
+print_r($stack);
+n();
+
+//array_slice()
+//Выбирает срез массива
+//array array_slice ( array $array , int $offset [, int $length = NULL [, bool $preselve_keys = false ]])
+$input = array("a", "b", "c", "d", "e");
+$output = array_slice($input, 2); //возвращает "c", "d" и "e"
+print_r($output);
+n();
+$output = array_slice($input, -2, 1); //возвращает "d"
+print_r($output);
+n();
+$output = array_slice($input, 0, 3); //возвращает "a", "b" и "c"
+print_r($output);
+n();
+
+//array_splice()
+//Удаляет часть массива и заменяет её чем-нибудь ещё
+//array array_splice ( array &$input , int $offset [, int $length = 0 [, mixed $replacement ]])
+$input = array("red", "green", "blue", "yellow");
+print_r(array_splice($input, 2)); 
+print_r($input);
+n();
+$input = array("red", "green", "blue", "yellow");
+print_r(array_splice($input, 1, -1)); 
+n();
+print_r($input);
+n();
+$input = array("red", "green", "blue", "yellow");
+print_r(array_splice($input, 1, count($input), "orange")); 
+n();
+print_r($input);
+n();
+$input = array("red", "green", "blue", "yellow");
+print_r(array_splice($input, -1, 1, array("black", "maroon"))); 
+n();
+print_r($input);
+n();
+$input = array("red", "green", "blue", "yellow");
+print_r(array_splice($input, 3, 0, "purple")); 
+n();
+print_r($input);
+n();
+
+//array_sum()
+//Вычисляет сумму значений массива
+//number array_sum( $array )
+$a = array(1, 5, 6, 2, 9);
+echo "sum(a) = " . array_sum($a);
+n();
+$b = array("a" => 3.4, "b" => 5.3, "c" => 1.2);
+echo "sum(b) = " . array_sum($b);
+n();
+
+//array_udiff()
+//Вычисляет расхождение массивов, используя для сравнения callback-функцию
+//array array_udif ( array $array1 , array $array2 [, array $ ... ], callable $data_compare_func)
+class cr{
+	private $priv_member;
+	function cr($val)
+	{
+		$this->priv_member = $val;
+	}
+	static function comp_func_cr($a, $b)
+	{
+		if($a->priv_member === $b->priv_member) return 0;
+		return($a->priv_member > $b->priv_member)? 1:-1;
+	}
+}
+$a = array("0.1" => new cr(9), "0.5" => new cr(12), 0 => new cr(23), 1 => new cr(4), 2 => new cr(-15));
+$b = array("0.2" => new cr(9), "0.5" => new cr(22), 0 => new cr(3), 1 => new cr(4), 2 => new cr(-15));
+$result = array_udiff($a, $b, array("cr", "comp_func_cr"));
+print_r($result);
+n();
+
+//array_udiff_assoc()
+//Вычисляет расхождение в массивах с дополнительной проверкой индексов, используя для сравнения значений callback-функцию
 
 
+//array_udiff_uassoc()
+//Вычисляет расхождение в массивах с дополнительной проверкой индексов, используя для сравнения значений и индексов callback-функцию
 
+//array_uintersect()
+//Вычисляет пересечение массивов, используя для сравнения значений callback-функцию
 
+//array_uintersect_assoc()
+//Вычисляет пересечение массивов с дополнительной проверкой индексов, используя для сравнения значений callback-функцию
 
+//array_uintersect_uassoc()
+//Вычисляет пересечение массивов с дополнительной проверкой индекса, используя для сравнения индексов и значений индивидуальные callback-функции
 
+//array_unique()
+//Убирает повторяющиеся значения из массива
 
+//array_unshift()
+//Добавляет один или несколько элементов в начало массива
 
+//array_values()
+//Выбирает все значения массива
 
+//array_walk()
+//Применяет заданную пользователем функцию к каждому элементу массива
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//array_walk_recursive()
+//Рекурсивно применяет пользовательскую функцию к каждому элементу массива
 
 
 
