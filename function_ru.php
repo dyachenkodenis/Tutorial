@@ -1026,7 +1026,7 @@ class cr{
 	static function comp_func_cr($a, $b)
 	{
 		if($a->priv_member === $b->priv_member) return 0;
-		return($a->priv_member > $b->priv_member)? 1:-1;
+		return($a->priv_member > $b->priv_member)? 1 : -1;
 	}
 }
 $a = array("0.1" => new cr(9), "0.5" => new cr(12), 0 => new cr(23), 1 => new cr(4), 2 => new cr(-15));
@@ -1037,41 +1037,166 @@ n();
 
 //array_udiff_assoc()
 //Вычисляет расхождение в массивах с дополнительной проверкой индексов, используя для сравнения значений callback-функцию
-
+//array array_udiff_assoc ( array $array1, array $array2 [, array $ ...], callable $data_compare_func )
+class cr1{
+	private $priv_member;
+	function cr1($val)
+	{
+		$this->priv_member = $val;
+	}
+	static function comp_func_cr1($a, $b)
+	{
+		if($a->priv_member === $b->priv_member) return 0;
+		return($a->priv_member > $b->priv_member)? 1 : -1;
+	}
+}
+$a = array("0.1" => new cr1(9), "0.5" => new cr1(12), 0 => new cr1(23), 1 => new cr1(4), 2 => new cr1(-15));
+$b = array("0.2" => new cr1(9), "0.5" => new cr1(22), 0 => new cr1(3), 1 => new cr1(4), 2 => new cr1(-15));
+$result = array_udiff_assoc($a, $b, array("cr1", "comp_func_cr1"));
+print_r($result);
+n();
 
 //array_udiff_uassoc()
 //Вычисляет расхождение в массивах с дополнительной проверкой индексов, используя для сравнения значений и индексов callback-функцию
+//array array_udiff_uassoc(array $array1, array $array2 [, array $ ... ], callable $data_compare_func, callable $key_compare_func )
+class cr2{
+	private $priv_member;
+	function cr2($val)
+	{
+		$this->priv_member = $val;
+	}
+	static function comp_func_cr2($a, $b)
+	{
+		if($a->priv_member === $b->priv_member) return 0;
+		return($a->priv_member > $b->priv_member)? 1 : -1;
+	}
+	static function comp_func_key2($a, $b)
+	{
+		if($a === $b) return 0;
+		return ($a > $b)? 1 : -1;
+	}
+}
+$a = array("0.1" => new cr2(9), "0.5" => new cr2(12), 0 => new cr2(23), 1 => new cr2(4), 2 => new cr2(-15));
+$b = array("0.2" => new cr2(9), "0.5" => new cr2(22), 0 => new cr2(3), 1 => new cr2(4), 2 => new cr2(-15));
+$result = array_udiff_uassoc($a, $b, array("cr2", "comp_func_cr2"), array("cr2", "comp_func_key2"));
+print_r($result);
+n();
 
 //array_uintersect()
 //Вычисляет пересечение массивов, используя для сравнения значений callback-функцию
+//array array_uintersect( array $array1, array $array2 [, $ ...], callable $data_compare_func )
+$array1 = array("a" => "green", "b" => "brown", "c" => "blue", "red");
+$array2 = array("a" => "GREEN", "B" => "brown", "yellow", "red");
+print_r(array_uintersect($array1, $array2, "strcasecmp"));
+n();
 
 //array_uintersect_assoc()
 //Вычисляет пересечение массивов с дополнительной проверкой индексов, используя для сравнения значений callback-функцию
+//array array_uintersect_assoc( array $array1, array $array2 [, array $ ...], callable $data_compare_func)
+$array1 = array("a" => "green", "b" => "brown", "c" => "blue", "red");
+$array2 = array("a" => "GREEN", "B" => "brown", "yellow", "red");
+print_r(array_uintersect_assoc($array1, $array2, "strcasecmp"));
+n();
 
 //array_uintersect_uassoc()
 //Вычисляет пересечение массивов с дополнительной проверкой индекса, используя для сравнения индексов и значений индивидуальные callback-функции
+//array array_uintersect_uassoc (array $array1, array $array2 [, array $ ...], callable $data_compare_func, calable $key_compare_func)
+$array1 = array("a" => "green", "b" => "brown", "c" => "blue", "red");
+$array2 = array("a" => "GREEN", "B" => "brown", "yellow", "red");
+print_r(array_uintersect_uassoc($array1, $array2, "strcasecmp", "strcasecmp"));
+n();
 
 //array_unique()
 //Убирает повторяющиеся значения из массива
+//array array_unique( array $array,  [, int $sort_flags = SORT_STRING])
+$input = array("a" => "green", "red", "b" => "green", "blue", "red");
+$result = array_unique($input);
+print_r($result);
+n();
+$input = array(4, "4", "3", 4, 3, "3");
+$result = array_unique($input);
+print_r($result);
+n();
 
 //array_unshift()
 //Добавляет один или несколько элементов в начало массива
+//int array_unshift (array &$array, mixed $var [, mixed $...])
+$array = array("orange", "banana");
+array_unshift($array, "apple", "raspberry");
+print_r($array);
+n();
 
 //array_values()
 //Выбирает все значения массива
+//array array_values( array $input)
+$array = array("size" => "XL", "color" => "gold");
+print_r(array_values($array));
+n();
 
 //array_walk()
 //Применяет заданную пользователем функцию к каждому элементу массива
+//bool array_walk( array &$array, callable $funcname [, mixed $userdata = NULL])
+$fruits = array("d" => "lemon", "a" => "orange", "b" => "banana", "c" => "apple");
+function test_alter(&$item1, $key, $prefix)
+{
+	$item1 = "$prefix: $item1";
+}
+function test_print($item2, $key)
+{
+	echo "$key . $item2 <br />";
+}
+echo "До ...:";
+array_walk($fruits, 'test_print');
+array_walk($fruits, 'test_alter', 'fruit');
+echo "... После:";
+array_walk($fruits, 'test_print');
+n();
 
 //array_walk_recursive()
 //Рекурсивно применяет пользовательскую функцию к каждому элементу массива
+//bool array_walk_recursive( array &$input, callable $funcname [, mixed $userdata = NULL])
+$sweet = array("a" => "apple", "b" => "banana");
+$fruits = array("sweet" => $sweet, "sour" => "lemon");
+function test_print1($item, $key)
+{
+	echo "$key holds $item <br />";
+}
+array_walk_recursive($fruits, "test_print1");
+n();
 
+//arsort()
+//Сортирует массив в обратном порядке, сохраняя ключи
+//bool arsort (array &$array [, int $sort_flags = SORT_REGULAR ])
+$fruits = array("d" => "lemon", "a" => "orange", "b" => "banana", "c" => "apple");
+arsort($fruits);
+foreach($fruits as $key => $value){
+	echo "$key = $value". "<br />";
+}
+n();
 
+//asin()
+//Арксинус
+//float asin (float $arg)
+echo asin(0.2);
+n();
 
+//asinh()
+//Гиперболический арксинус
+//float asinh (float $arg)
+echo asinh(1.2);
+n();
 
+//asort()
+//Сортирует массив, сохраняя ключи
+//bool asort(array &$array [, int $sort_flags = SORT_REGULAR])
+$fruits = array("d" => "lemon", "a" => "orange", "b" => "banana", "c" => "apple");
+asort($fruits);
+foreach($fruits as $key => $value){
+	echo "$key = $value <br />";
+}
+n();
 
-
-
+//assert()
 
 
 
