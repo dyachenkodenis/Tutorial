@@ -1197,10 +1197,51 @@ foreach($fruits as $key => $value){
 n();
 
 //assert()
+// Проверяет, является ли утверждение FALSE
+//assert (mixed $assertion [, string $description]) : bool
+//assert (mixed $assertion [, Throwable $exception]) : bool
+// Активация утверждений и отключение вывода ошибок
+assert_options(ASSERT_ACTIVE, 1);
+assert_options(ASSERT_WARNING, 0);
+asert_options(ASSERT_QUIET_EVAL, 1);
+//Создание обработчика
+function my_assert_handler($file, $line, $code){
+	echo "Неудачная проверка утверждения:
 
+			Файл: '$file'<br />
+			Строка: '$line'<br />
+			Код: '$code'<br />
+	";
+}
+//Подключение callback - функции
+assert_options(ASSERT_CALLBACK, 'my_assert_handler');
+// Выполнение проверки утверждения, которое завершится неудачей
+assert('mysql_query("")');
 
+// Активация утверждений и отключение вывода ошибок
+assert_options(ASSERT_ACTIVE, 1);
+assert_options(ASSERT_WARNING, 0);
+assert_options(ASSERT_QUIET_EVAL, 1);
+// Создание обработчика
+function my_assert_handler1($file, $line, $code, $desc = null){
+	echo "Неудачная проверка утверждения в $file:$line: $code";
+	if($desc){
+		echo ": $desc";
+	}
+	echo "\n";
+}
+// Подключение callback-функции
+assert_option(ASSERT_CALLBACK, "my_assert_handler1");
+// Выполнение проверки утверждения, которое завершится неудачей
+assert('2 < 1');
+assert('2 < 1', 'Два больше чем один');
 
+assert(true == false);
+echo "Привет!";
 
+//assert_options()
+//Установка и получение настроек механизма проверки утверждений
+//assert_options(int $what [, mixed $value ]): mixed 
 
 
 
