@@ -1203,7 +1203,7 @@ n();
 // Активация утверждений и отключение вывода ошибок
 assert_options(ASSERT_ACTIVE, 1);
 assert_options(ASSERT_WARNING, 0);
-asert_options(ASSERT_QUIET_EVAL, 1);
+assert_options(ASSERT_QUIET_EVAL, 1);
 //Создание обработчика
 function my_assert_handler($file, $line, $code){
 	echo "Неудачная проверка утверждения:
@@ -1231,17 +1231,119 @@ function my_assert_handler1($file, $line, $code, $desc = null){
 	echo "\n";
 }
 // Подключение callback-функции
-assert_option(ASSERT_CALLBACK, "my_assert_handler1");
+assert_options(ASSERT_CALLBACK, "my_assert_handler1");
 // Выполнение проверки утверждения, которое завершится неудачей
 assert('2 < 1');
 assert('2 < 1', 'Два больше чем один');
 
 assert(true == false);
 echo "Привет!";
-
 //assert_options()
 //Установка и получение настроек механизма проверки утверждений
 //assert_options(int $what [, mixed $value ]): mixed 
+// Функция обработчик неудавшихся проверок
+function assert_failture($file, $line, $assertion, $message){
+	echo "Проверка $assertion в $file на строке $line провалена: $message";
+}
+//Тестовая функция
+function test_assert($parameter){
+	assert(is_bool($parameter));
+}
+//Настройки проверки
+assert_options(ASSERT_ACTIVE, true);
+assert_options(ASSERT_BAIL, true);
+assert_options(ASSERT_WARNING, false);
+assert_options(ASSERT_CALLBACK, 'assert_failture');
+//Заведомо ошибочное утверждение
+test_assert(1);
+//Этот код не будет выполняться, пока ASSERT_BAIL равен true
+echo "Некогда не будет выполено";
+
+//atan()
+//Арктангенс
+//atan(float $arg): float
+
+//atan2()
+//Арктангенс двух переменных
+//atan2(float $y, float $x): float
+function compass($x, $y)
+{
+	if($x == 0 AND $y == 0){return 0;} //... or return 360
+	return ($x < 0)
+	? rad2deg(atan2($x, $y)) + 360 //transposed !! y,x params
+	: rad2deg(atan2($x, $y));
+}
+function polar($x, $y)
+{
+	$N = ($y > 0)?'N':'';
+	$S = ($y < 0)?'S':'';
+	$E = ($x > 0)?'E':'';
+	$W = ($x > 0)?'W':'';
+	return $N.$S.$E.$W;
+}
+function show_compass($x,$y)
+{
+	return "<br />"
+			.polar($x, $y)
+			.' compass( x = '.$x.', y = '.$y.' )= '
+			.number_format(compass($x, $y), 3). '&deg';
+}
+echo show_compass(0,3);
+echo show_compass(.06,3);
+echo show_compass(3,3);
+echo show_compass(3,.06);
+echo show_compass(3,0);
+echo show_compass(3,-.06);
+echo show_compass(3,-3);
+echo show_compass(.06,-3);
+echo show_compass(0,-3);
+echo show_compass(-.06,-3);
+echo show_compass(-3,-3);
+echo show_compass(-3,-.06);
+echo show_compass(-3,0);
+echo show_compass(-3,.06);
+echo show_compass(-3,3);
+echo show_compass(-.06,3);
+n();
+
+//atanh()
+//Гиперболтческий арктагенс
+//atanh(float $arg): float
+
+//base64_decode()
+//Декодирует данные, закодированные MIME base64
+//base64_decode(string $data [, bool $strict = FALSE]): string
+$str = '0K3RgtC+INC30LDQutC+0LTQuNGA0L7QstCw0L3QvdCw0Y8g0YHRgtGA0L7QutCw';
+echo base64_decode($str);
+n();
+
+//base64_encode()
+//Кодирует данные в формат MIME base64
+//base64_encode(string $data): string
+$str = 'Это закодированная строка';
+echo base64_encode($str);
+n();
+
+//basename()
+//Возвращает последний компонент имени из указанного пути
+//basename(string $path [, string $suffix]): string
+echo basename('/public_html/');
+n();
+
+//base_convert()
+//Преобразование числа между произвольными системами счисления
+//base_convert( string $number, int $frombase, int $tobase): string
+$hexadecimal = 'a37334';
+echo base_convert($hexadecimal, 16, 2);
+n();
+
+
+
+
+
+
+
+
 
 
 
