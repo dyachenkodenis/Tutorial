@@ -118,5 +118,43 @@ class DestractableClass//создание нового класса
 	}
 }
 $object = new DestractableClass();//вывод отображения конструктора и его удаление
-//5)Переменная $this и Self
+//5)Переменная $this и self
+//$this - это специальная переменная которая используется для доступа к объекту класса из нутри самого класса
+class User4
+{
+	public $name1;
+	
+	public function getName()
+	{
+		echo $this->name1;
+		$this->test();
+	}
+	public function test()
+	{
+		echo "Тест";
+	}
+}
+$user4 = new User4();
+$user4->name1 = "Name";
+$user4->getName();//NameТест
 
+$user5 = new User4();
+$user5->name1 = "Name2";
+$user5->getName();//Name2Тест
+//self - искпользуется для обращения к внутреннему содержимого класса
+//
+class User6
+{
+	private static $testname;
+	public static function setName($testname6)
+	{
+		self::$testname = $testname6;
+	}
+	public static function getName()
+	{
+		return self::$testname;
+	}
+}
+User6::setName('Namesss');
+echo User6::getName();//Namesss
+//6)Наследование. Конструкторы в наследовании. Свойство protected.
