@@ -1,7 +1,7 @@
 <?php 
 
 
-require_once("OOP.php");
+require_once("oop.php");
 $obj = new \Home\User("Name", "123456", "example@gmail.com", "City");
 echo $obj->getInfo();
 
